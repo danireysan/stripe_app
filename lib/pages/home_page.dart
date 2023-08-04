@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
+import 'package:stripe_app/bloc/pagar/pagar_bloc.dart';
 import 'package:stripe_app/helpers/navigate_fade_in.dart';
 import 'package:stripe_app/mockups/credit_card_data.dart';
 import 'package:stripe_app/pages/card_page.dart';
@@ -40,9 +42,10 @@ class HomePage extends StatelessWidget {
                       context,
                       navegarMapaFadeIn(
                         context,
-                        CardPage(tarjeta: tarjeta),
+                        const CardPage(),
                       ),
                     );
+                    context.read<PagarBloc>().add(SelectCard(tarjeta));
                   },
                   child: Hero(
                     tag: tarjeta.cardNumber,

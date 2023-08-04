@@ -1,19 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
-import 'package:stripe_app/models/credit_card_model.dart';
 
+import '../bloc/pagar/pagar_bloc.dart';
 import '../widgets/total_pay_button.dart';
 
 class CardPage extends StatelessWidget {
   static const String routeName = '/card';
-  final TarjetaCredito tarjeta;
-  const CardPage({super.key, required this.tarjeta});
+
+  const CardPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final tarjeta = context.select((PagarBloc bloc) => bloc.state.tarjeta)!;
     return Scaffold(
         appBar: AppBar(
           title: const Text('Pagar'),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios),
+            onPressed: () {
+              context.read<PagarBloc>().add(DeactivateCard());
+
+              Navigator.pop(context);
+            },
+          ),
         ),
         body: Stack(
           children: [
@@ -29,7 +39,7 @@ class CardPage extends StatelessWidget {
                 onCreditCardWidgetChange: (p0) {},
               ),
             ),
-            Positioned(
+            const Positioned(
               bottom: 0,
               child: TotalPayButton(),
             ),
