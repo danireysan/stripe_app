@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stripe_app/pages/complete_payment.dart';
 import 'package:stripe_app/pages/home_page.dart';
+import 'package:stripe_app/services/stripe_service.dart';
 
 import 'bloc/pagar/pagar_bloc.dart';
 
@@ -14,14 +15,16 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    StripeService().init();
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => PagarBloc()),
       ],
       child: MaterialApp(
         title: 'Stripe app',
+        debugShowCheckedModeBanner: false,
         routes: {
-          HomePage.routeName: (context) => const HomePage(),
+          HomePage.routeName: (context) => HomePage(),
           CompletePaymentPage.routeName: (context) =>
               const CompletePaymentPage(),
         },
